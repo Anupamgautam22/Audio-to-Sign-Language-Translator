@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+    <table cellspacing="20px">
+        <tr>
+            <td class="td">The text that you entered is:</td>
+            <td class="td">{{ text }}</td>
+        </tr>
+        <tr>
+            <td class="td"> words in sentence:</td>
+            <td class="td">
+            <ul >
+                  {% for word in text %}
+                {{ word }}
+                  {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+</p> 
+</body>
+</html>

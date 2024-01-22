@@ -1,0 +1,135 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+<body >
+  
+  <div class="mainbarr">
+    <div class="navleft">
+      <img src={% static "logo.png" %} />
+          <p class="myfont">  
+            Audio To Sign Language Translator</p>
+     </div>
+    <div class="navigation">
+        <ul class="text">
+            <li><a href="">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact us</a></li>
+        </ul>
+    </div>
+
+
+</div>
+<hr class="line">
+<div class='content'>
+  <div class='left-content'>
+
+    <h1 class="myfont fontsize"><span style="color:brown"> <span style="color:red;font-size: 70px"> A</span>udio - Sign</span> <br>   <span style="color:brown"> Language    Translator</span></h1>
+    
+    <form class='myform' method="post" action="{% url 'create' %}">
+      {% csrf_token %}
+      <p class='para'><label for="w3review">Enter your text:</label></p>
+      <textarea id="ashish" name="textarea" rows="10" cols="70"></textarea>
+      <br>
+      <input class ='btn' id="submit" type="submit" value="Submit">
+      
+    </form>
+    
+  
+  </div> 
+  <div>
+    <button class='btnmic' type="submit"  onclick="location.href='{% url 'speak' %}'" name='speak' >
+     
+      <img src={% static "mic.svg" %} height ="80" width="100" />
+      <p class='speaknow'>SPEAK NOW</p>
+      
+    </button>
+  </div>
+    <div>
+
+      <button class='btnmic' type="submit"  onclick="location.href='{% url 'speakmodel' %}'" name='speakmodel' >
+     
+        <img src={% static "abc.png" %} height ="80" width="100" />
+        <p class='speaknow'>GIVE COMMAND</p>
+      </button>   
+
+  </div>
+  
+  
+  <div class='video_play'>
+    <div>
+  <h1 class="myfont1 leftmargin"><br>
+    {% for word in text %}
+      {{ word }}
+    {% endfor %}
+  
+  </h1>
+  </div>
+  <div>
+  <video id="video-player" style="width: 640px; height: 360px; display: flex; margin-left: 50px;">
+    Your browser does not support the video tag.
+  </video>  
+  </div>
+   <div>
+  <button id="play-pause-button" style="width: 150px; height: 40px; margin-left:275px; margin-top:25px; background-color: green; color: #fff; font-size: 16px; border: none; cursor: pointer;">Play</button>
+   </div>
+</div>
+</div>
+
+
+
+  <script>
+    var text = {{ text|safe }};
+    var new_data = {% include 'new_data.json' %};
+var videoFiles = [];
+
+for (var i = 0; i < text.length; i++) {
+  var word = text[i];
+  
+  if (word in new_data) {
+    videoFiles.push("/static/videos/" + new_data[word] + ".mp4");
+  } else {console.log("No value found in new_data.json for word: " + word);
+   // Spitting the lettter
+    for (var j = 0; j < word.length; j++) {
+      var letter = word[j];
+      videoFiles.push("/static/alphabet/" + letter + ".mp4");
+    }
+  }
+}
+
+
+    var currentIndex = 0;
+    var videoPlayer = document.getElementById("video-player");
+    videoPlayer.setAttribute("src", videoFiles[0]);
+  
+    var playPauseButton = document.getElementById("play-pause-button");
+    playPauseButton.addEventListener("click", function() {
+      if (videoPlayer.paused) {
+        videoPlayer.play();
+        playPauseButton.textContent = "Pause";
+      } else {
+        videoPlayer.pause();
+        playPauseButton.textContent = "Play";
+      }
+    });
+  
+    videoPlayer.addEventListener("ended", function() {
+      currentIndex++;
+      if (currentIndex >= videoFiles.length) {
+        currentIndex = 0;
+      }
+      videoPlayer.setAttribute("src", videoFiles[currentIndex]);
+      videoPlayer.play();
+    });
+  </script>
+  
+  
+
+  
+
+</div>
+
+
+
+</body>

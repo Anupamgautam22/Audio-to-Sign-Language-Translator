@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+<body >
+  
+  <div class="mainbarr">
+    <div class="navleft">
+      <img src={% static "logo.png" %} />
+          <p class="myfont">  
+            Audio To Sign Language Translator</p>
+     </div>
+    <div class="navigation">
+        <ul class="text">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact us</a></li>
+        </ul>
+    </div>
+
+
+</div>
+<hr class="line">
+
+<h2>By this project we want to make communication easier for deaf and dumb people.</h2>
+	<hr>
+ 	<h2>Our Creator Team:</h2>
+ 	<hr>
+ 	<ul class="td">
+		<li>ANUPAM GAUTAM</li>
+		<li>ASHISH DHAKAL</li>
+		
+  	</ul>
+	<hr>
+	<p class="td">Thank you, For visiting our website</p>
